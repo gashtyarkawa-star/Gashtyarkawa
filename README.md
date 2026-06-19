@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gashtyar Kawa
 
-## Getting Started
+Immersive artist website for **Gashtyar Kawa** — Kurdish setar player, composer and microtonal explorer.
 
-First, run the development server:
+Built with Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion and Canvas 2D.
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All copy, track links and platform links live in [`src/config/site.ts`](src/config/site.ts).
 
-## Learn More
+## Assets
 
-To learn more about Next.js, take a look at the following resources:
+Replace the placeholder files with real media:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `public/audio/intro.mp3` — intro sound played on entry (placeholder is empty)
+- `public/audio/click.mp3` — note click sound on the scale sculpture (placeholder is empty)
+- `public/images/artist.jpg` — optional. If present it is used as a diffuse hero backdrop; otherwise the hero stays purely abstract.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If an audio file is missing or cannot decode, playback fails silently — the rest of the site keeps working.
 
-## Deploy on Vercel
+## Highlights
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Entry screen** — animated particle/smoke background + "ENTER THE WORLD"; dissolves into an expanding wave.
+- **Interactive Bayat Dorian scale sculpture** — a breathing luminous wave with 8 glowing notes, cursor/touch ripples, hover halos, click shockwaves, scroll-reveal, and special "Bayat color" / "Dorian lift" / final-dissolve moments. Falls back to a static labeled version when `prefers-reduced-motion` is set.
+- **Kinetic music list**, scroll-revealed about, subtle platform links, contact and footer.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Accessibility: semantic HTML, ARIA labels for audio controls and the scale, RTL Kurdish text (`dir="rtl" lang="ku"`), reduced-motion support, all external links `target="_blank" rel="noopener noreferrer"`.
