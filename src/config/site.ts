@@ -71,11 +71,9 @@ export const site = {
     { name: "YouTube (Reviews)", url: "https://www.youtube.com/@gashtyarreviews" },
   ],
 
-  // Audio assets. Replace these placeholder files with real audio.
-  // Place files at /public/audio/intro.mp3 and /public/audio/click.mp3
   audio: {
-    intro: "/audio/intro.mp3",
-    click: "/audio/click.mp3",
+    intro: "/audio/intro.wav",
+    click: "/audio/click.wav",
   },
 
   // Optional artist image. If /public/images/artist.jpg exists it is used.
