@@ -1,15 +1,13 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useState } from "react";
-import ParticleField from "./ParticleField";
+import VHSImage from "./VHSImage";
 import { site } from "@/config/site";
 
-// Hero with moving abstract background. Uses the artist image if it loads,
-// otherwise stays purely abstract.
+// Hero: desaturated artist portrait with VHS chromatic aberration + scanlines,
+// massive VT323 title with neon-magenta glow.
 export default function Hero() {
   const reduced = useReducedMotion();
-  const [hasImage, setHasImage] = useState(false);
 
   const scrollToScale = () => {
     document.getElementById("scale")?.scrollIntoView({
@@ -23,48 +21,42 @@ export default function Hero() {
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
       aria-label="Introduction"
     >
-      <ParticleField intensity={0.9} />
-
-      {/* hidden probe image: if it loads, fade it in as a diffuse backdrop */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={site.artistImage}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        onLoad={() => setHasImage(true)}
-        onError={() => setHasImage(false)}
-        className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-          hasImage ? "opacity-25" : "opacity-0"
-        }`}
-        style={{ mixBlendMode: "screen" }}
-      />
-      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_center,transparent_30%,#070A12_92%)]" />
+      {/* background portrait */}
+      <div className="absolute inset-0">
+        <VHSImage
+          src={site.images.portrait}
+          alt="Gashtyar Kawa portrait"
+          aberration
+          className="h-full w-full opacity-60"
+        />
+      </div>
+      {/* gradient to background at bottom */}
+      <div className="pointer-events-none absolute inset-0 [background:linear-gradient(to_bottom,rgba(10,7,5,0.55)_0%,rgba(10,7,5,0.2)_40%,#0A0705_100%)]" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <motion.h1
-          className="text-5xl font-semibold tracking-tight sm:text-7xl md:text-8xl"
+          className="font-display neon-pink text-6xl leading-none tracking-tight sm:text-8xl md:text-[10rem]"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
         >
           GASHTYAR KAWA
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-sm tracking-[0.3em] text-silver sm:text-base"
+          className="mt-6 font-terminal text-xs uppercase tracking-[0.3em] text-neon-cyan sm:text-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.9 }}
+          transition={{ duration: 1, delay: 0.7 }}
         >
-          {site.role}
+          SETAR PLAYER · COMPOSER · MICROTONAL EXPLORER
         </motion.p>
 
         <motion.p
-          className="mx-auto mt-4 max-w-xl text-base text-foreground/70 sm:text-lg"
+          className="mx-auto mt-4 max-w-xl font-terminal text-sm text-paper/70 sm:text-base"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.1 }}
+          transition={{ duration: 1, delay: 0.9 }}
         >
           {site.tagline}
         </motion.p>
@@ -72,12 +64,13 @@ export default function Hero() {
         <motion.button
           type="button"
           onClick={scrollToScale}
-          className="focus-ring mt-12 rounded-full border border-silver/40 px-8 py-4 text-xs tracking-[0.4em] text-foreground/90 transition-colors hover:border-cyan hover:text-cyan"
+          className="font-display glitch-hover focus-ring neon-border-cyan mt-12 px-8 py-3 text-lg tracking-[0.2em] text-neon-cyan"
+          style={{ borderRadius: 0 }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3 }}
+          transition={{ duration: 1, delay: 1.1 }}
         >
-          EXPLORE THE SOUND
+          [ EXPLORE THE SOUND ]
         </motion.button>
       </div>
     </section>

@@ -16,8 +16,8 @@ const BOOT_LINES = [
 // static flash + horizontal tear, then reveals the site.
 export default function EntryScreen({ onEnter }: { onEnter: () => void }) {
   const [exiting, setExiting] = useState(false);
-  const [bootStep, setBootStep] = useState(0);
   const reduced = useReducedMotion();
+  const [bootStep, setBootStep] = useState(0);
   const { playIntro } = useAudio();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -54,16 +54,14 @@ export default function EntryScreen({ onEnter }: { onEnter: () => void }) {
 
   // boot sequence reveal
   useEffect(() => {
-    if (reduced) {
-      setBootStep(BOOT_LINES.length);
-      return;
-    }
+    if (reduced) return;
     if (bootStep >= BOOT_LINES.length) return;
     const id = window.setTimeout(() => setBootStep((s) => s + 1), 650);
     return () => window.clearTimeout(id);
   }, [bootStep, reduced]);
 
-  const bootDone = bootStep >= BOOT_LINES.length;
+  const bootStepResolved = reduced ? BOOT_LINES.length : bootStep;
+  const bootDone = bootStepResolved >= BOOT_LINES.length;
 
   const handleEnter = () => {
     if (exiting) return;
@@ -118,7 +116,7 @@ export default function EntryScreen({ onEnter }: { onEnter: () => void }) {
             <motion.p
               key={line}
               initial={{ opacity: 0 }}
-              animate={{ opacity: i < bootStep ? 1 : 0 }}
+              animate={{ opacity: i < bootStepResolved ? 1 : 0 }}
               transition={{ duration: 0.1 }}
               className={
                 line === "GASHTYAR KAWA"

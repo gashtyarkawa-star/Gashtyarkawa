@@ -24,7 +24,6 @@ export default function VHSNoise() {
     canvas.height = H;
 
     let raf = 0;
-    let frame = 0;
 
     const draw = () => {
       const img = ctx.createImageData(W, H);
@@ -37,7 +36,6 @@ export default function VHSNoise() {
         d[i + 3] = 255;
       }
       ctx.putImageData(img, 0, 0);
-      frame++;
       // throttle to ~20fps for a flickery analog feel
       if (!reduced) raf = window.setTimeout(() => requestAnimationFrame(draw), 50);
     };

@@ -132,7 +132,7 @@ export default function ScaleSculpture() {
     const lastClickRef = { t: 0 };
     const triggerBurst = (n: Note) => {
       const color =
-        n.special === "bayat" ? "#4B2A7D" : n.special === "dorian" ? "#7BE7FF" : "#2D5BFF";
+        n.special === "bayat" ? "#FF2D78" : n.special === "dorian" ? "#FFE600" : "#39FF14";
       const count = 26;
       for (let k = 0; k < count; k++) {
         const a = (k / count) * Math.PI * 2;
@@ -182,8 +182,8 @@ export default function ScaleSculpture() {
       // background brightening for "Dorian lift"
       if (dorianActive) {
         const g = ctx.createRadialGradient(width / 2, midY, 0, width / 2, midY, width * 0.6);
-        g.addColorStop(0, "rgba(123,231,255,0.10)");
-        g.addColorStop(1, "rgba(7,10,18,0)");
+        g.addColorStop(0, "rgba(255,230,0,0.10)");
+        g.addColorStop(1, "rgba(10,7,5,0)");
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, width, height);
       }
@@ -219,13 +219,13 @@ export default function ScaleSculpture() {
         else ctx.lineTo(px, py);
       }
       const lineGrad = ctx.createLinearGradient(padX, 0, width - padX, 0);
-      lineGrad.addColorStop(0, "#2D5BFF");
-      lineGrad.addColorStop(0.5, dorianActive ? "#7BE7FF" : "#4B2A7D");
-      lineGrad.addColorStop(1, "#7BE7FF");
+      lineGrad.addColorStop(0, "#39FF14");
+      lineGrad.addColorStop(0.5, dorianActive ? "#FFE600" : "#39FF14");
+      lineGrad.addColorStop(1, "#00F5D4");
       ctx.strokeStyle = lineGrad;
       ctx.lineWidth = 2;
       ctx.shadowBlur = 18;
-      ctx.shadowColor = "#2D5BFF";
+      ctx.shadowColor = "#39FF14";
       ctx.stroke();
       ctx.shadowBlur = 0;
 
@@ -286,18 +286,18 @@ export default function ScaleSculpture() {
         const r = 6 + Math.sin(t * 3 + i) * 1.5 + n.hover * (isMobile ? 4 : 8);
         const color =
           n.special === "bayat"
-            ? "#4B2A7D"
+            ? "#FF2D78"
             : n.special === "dorian"
-              ? "#7BE7FF"
+              ? "#FFE600"
               : n.special === "final"
-                ? "#BFC8D6"
-                : "#2D5BFF";
+                ? "#00F5D4"
+                : "#39FF14";
 
         // vibrating halo on hover
         if (n.hover > 0.05) {
           ctx.beginPath();
           const hr = r + 10 + Math.sin(t * 20) * 4 * n.hover;
-          ctx.strokeStyle = `rgba(123,231,255,${0.5 * n.hover})`;
+          ctx.strokeStyle = `rgba(0,245,212,${0.5 * n.hover})`;
           ctx.lineWidth = 1.5;
           ctx.arc(n.x, n.y, hr, 0, Math.PI * 2);
           ctx.stroke();
@@ -314,8 +314,8 @@ export default function ScaleSculpture() {
         ctx.globalAlpha = 1;
 
         // label
-        ctx.font = "11px var(--font-geist-sans), sans-serif";
-        ctx.fillStyle = `rgba(240,242,245,${alpha * 0.85})`;
+        ctx.font = "13px var(--font-space-mono), monospace";
+        ctx.fillStyle = `rgba(245,239,214,${alpha * 0.85})`;
         ctx.textAlign = "center";
         ctx.fillText(n.label, n.x, n.y + r + 16);
       });
@@ -323,14 +323,14 @@ export default function ScaleSculpture() {
       // special labels
       const bayat = notes.find((n) => n.special === "bayat");
       if (bayat && bayat.revealed > 0.6) {
-        ctx.fillStyle = `rgba(123,231,255,${(bayat.revealed - 0.6) * 2.5})`;
-        ctx.font = "italic 14px sans-serif";
+        ctx.fillStyle = `rgba(255,45,120,${(bayat.revealed - 0.6) * 2.5})`;
+        ctx.font = "14px var(--font-space-mono), monospace";
         ctx.textAlign = "center";
         ctx.fillText("Bayat color", bayat.x, bayat.y - 28);
       }
       if (dorianActive) {
-        ctx.fillStyle = `rgba(123,231,255,${(dorianActive.revealed - 0.6) * 2.5})`;
-        ctx.font = "italic 14px sans-serif";
+        ctx.fillStyle = `rgba(255,230,0,${(dorianActive.revealed - 0.6) * 2.5})`;
+        ctx.font = "14px var(--font-space-mono), monospace";
         ctx.textAlign = "center";
         ctx.fillText("Dorian lift", dorianActive.x, dorianActive.y - 34);
       }
@@ -357,7 +357,7 @@ export default function ScaleSculpture() {
 
       // final dissolve particles
       if (dissolve > 0.05) {
-        ctx.fillStyle = `rgba(7,10,18,${dissolve * 0.4})`;
+        ctx.fillStyle = `rgba(10,7,5,${dissolve * 0.4})`;
         ctx.fillRect(0, 0, width, height);
       }
 
@@ -387,37 +387,49 @@ export default function ScaleSculpture() {
       aria-label="Interactive Bayat Dorian scale"
       className="relative min-h-[200vh] px-6 py-24"
     >
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center">
-        <p className="mb-4 text-xs uppercase tracking-[0.4em] text-silver">
-          The Bayat Dorian scale
+      <div className="crt-grid sticky top-0 flex h-screen flex-col items-center justify-center">
+        <p className="font-display mb-4 text-xl uppercase tracking-[0.4em] text-neon-cyan neon-cyan">
+          ◢ THE BAYAT DORIAN SCALE ◣
         </p>
 
         {reduced ? (
           // Static, fully accessible fallback
-          <ul className="flex flex-wrap items-center justify-center gap-4">
+          <ul className="flex flex-wrap items-center justify-center gap-4 font-terminal">
             {site.scale.map((n, i) => (
               <li
                 key={`${n.label}-${i}`}
-                className="rounded-full border border-cobalt/50 px-5 py-3 text-foreground"
+                className="neon-border-green px-5 py-3 text-paper"
+                style={{ borderRadius: 0 }}
               >
                 {n.label}
                 {n.special === "bayat" && (
-                  <span className="ml-2 text-xs italic text-cyan">Bayat color</span>
+                  <span className="ml-2 text-xs italic text-neon-pink">Bayat color</span>
                 )}
                 {n.special === "dorian" && (
-                  <span className="ml-2 text-xs italic text-cyan">Dorian lift</span>
+                  <span className="ml-2 text-xs italic text-neon-yellow">Dorian lift</span>
                 )}
               </li>
             ))}
           </ul>
         ) : (
           <>
-            <canvas
-              ref={canvasRef}
-              role="img"
-              aria-label="A luminous sound wave with eight glowing notes of the Bayat Dorian scale: C, D half-flat, E flat, F, G, A, B flat, C. Move the cursor to ripple the wave; click a note to hear it."
-              className="h-[60vh] w-full max-w-5xl cursor-pointer touch-none"
-            />
+            <div className="relative h-[60vh] w-full max-w-5xl">
+              <canvas
+                ref={canvasRef}
+                role="img"
+                aria-label="An oscilloscope-style sound wave with eight glowing notes of the Bayat Dorian scale: C, D half-flat, E flat, F, G, A, B flat, C. Move the cursor to ripple the wave; click a note to hear it."
+                className="h-full w-full cursor-pointer touch-none"
+              />
+              {/* scanline overlay on the oscilloscope */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.2) 3px, rgba(0,0,0,0.2) 4px)",
+                }}
+              />
+            </div>
             {/* Accessible live region + visually-hidden controls for each note */}
             <p className="sr-only" aria-live="polite">
               {activeLabel ? `Playing note ${activeLabel}` : ""}
@@ -432,7 +444,7 @@ export default function ScaleSculpture() {
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-xs tracking-widest text-foreground/40">
+            <p className="mt-2 font-terminal text-xs tracking-widest text-phosphor/50">
               {revealedCount} / {site.scale.length} notes revealed — scroll to reveal the scale
             </p>
           </>
@@ -444,13 +456,13 @@ export default function ScaleSculpture() {
             finalRevealed || reduced ? "opacity-100" : "opacity-0"
           }`}
         >
-          <span dir="rtl" lang="ku" className="block text-3xl text-cyan sm:text-5xl">
+          <span dir="rtl" lang="ku" className="block text-3xl neon-pink sm:text-5xl">
             {site.album.kurdishTitle}
           </span>
-          <span className="mt-2 block tracking-[0.3em] text-foreground">
+          <span className="font-display mt-2 block text-2xl tracking-[0.3em] text-neon-cyan">
             {site.album.latinTitle}
           </span>
-          <span className="mt-1 block text-xs uppercase tracking-[0.4em] text-silver">
+          <span className="font-display blink mt-1 block text-sm uppercase tracking-[0.4em] text-neon-yellow">
             {site.album.status}
           </span>
         </div>

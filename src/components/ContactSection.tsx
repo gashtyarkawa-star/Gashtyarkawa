@@ -11,13 +11,18 @@ export default function ContactSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.8 }}
+        className="border border-neon-pink/40 bg-black/30 p-6"
+        style={{ boxShadow: "inset 0 0 30px rgba(255,45,120,0.08)" }}
       >
-        <p className="text-sm uppercase tracking-[0.4em] text-silver">Booking / Contact</p>
+        <p className="font-display text-2xl uppercase tracking-[0.3em] text-neon-pink neon-pink">
+          &gt; BOOKING / CONTACT
+        </p>
         <a
           href={`mailto:${site.contactEmail}`}
-          className="hover-line focus-ring mt-6 inline-block text-3xl font-medium tracking-tight text-foreground transition-colors hover:text-cyan sm:text-5xl"
+          className="glitch-hover focus-ring mt-6 inline-block font-display text-2xl tracking-tight text-neon-cyan transition-colors sm:text-4xl"
         >
-          {site.contactEmail}
+          &gt; {site.contactEmail}
+          <span className="blink">_</span>
         </a>
       </motion.div>
     </section>

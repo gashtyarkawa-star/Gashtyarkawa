@@ -6,15 +6,16 @@ import { site, type Track } from "@/config/site";
 
 function PlatformLinks({ track }: { track: Track }) {
   return (
-    <span className="flex items-center gap-4 text-xs tracking-[0.2em] text-silver">
+    <span className="flex items-center gap-2 font-display text-base tracking-[0.1em]">
       {track.spotify && (
         <a
           href={track.spotify}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover-line focus-ring transition-colors hover:text-cyan"
+          className="vcr-btn glitch-hover focus-ring px-2 py-1"
+          style={{ borderRadius: 0 }}
         >
-          Spotify
+          ► SPT
         </a>
       )}
       {track.youtube && (
@@ -22,55 +23,40 @@ function PlatformLinks({ track }: { track: Track }) {
           href={track.youtube}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover-line focus-ring transition-colors hover:text-cyan"
+          className="vcr-btn glitch-hover focus-ring px-2 py-1"
+          style={{ borderRadius: 0 }}
         >
-          YouTube
+          ▶ YT
         </a>
       )}
     </span>
   );
 }
 
-function TrackRow({ track, primary }: { track: Track; primary: boolean }) {
+function TrackRow({ track, index }: { track: Track; index: number }) {
   const [hover, setHover] = useState(false);
   const reduced = useReducedMotion();
+  const num = String(index + 1).padStart(2, "0");
 
   return (
     <li
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="group relative border-b border-white/5 py-5"
+      className={`group relative flex flex-wrap items-center justify-between gap-3 border-b border-neon-cyan/20 py-4 transition-colors ${
+        hover ? "bg-neon-cyan/5" : ""
+      } ${hover && !reduced ? "glitch-hover" : ""}`}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-4">
-          {/* extending line on hover */}
-          <motion.span
-            aria-hidden="true"
-            className="block h-px bg-cyan"
-            initial={false}
-            animate={{ width: hover && !reduced ? 36 : 8 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          />
-          <motion.span
-            className={`${
-              primary ? "text-2xl sm:text-4xl" : "text-lg sm:text-2xl"
-            } font-medium tracking-tight transition-colors group-hover:text-cyan`}
-            initial={false}
-            animate={{ x: hover && !reduced ? 6 : 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {track.title}
-          </motion.span>
-        </div>
-
-        <motion.div
-          initial={false}
-          animate={{ opacity: hover || reduced ? 1 : 0.35, x: hover && !reduced ? 0 : 8 }}
-          transition={{ duration: 0.4 }}
+      <div className="flex items-center gap-4">
+        <span className="font-display neon-green text-2xl tabular-nums">{num}</span>
+        <span
+          className={`font-display text-2xl tracking-wide transition-colors sm:text-3xl ${
+            hover ? "neon-cyan" : "text-paper"
+          }`}
         >
-          <PlatformLinks track={track} />
-        </motion.div>
+          {track.title}
+        </span>
       </div>
+      <PlatformLinks track={track} />
     </li>
   );
 }
@@ -83,17 +69,17 @@ export default function MusicSection() {
   return (
     <section id="music" className="mx-auto max-w-4xl px-6 py-32" aria-label="Music">
       <motion.h2
-        className="mb-12 text-sm uppercase tracking-[0.4em] text-silver"
+        className="font-display mb-10 text-3xl uppercase tracking-[0.3em] text-neon-pink neon-pink"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        Music
+        ◼ MUSIC
       </motion.h2>
 
       <ul>
-        {primary.map((t) => (
-          <TrackRow key={t.title} track={t} primary />
+        {primary.map((t, i) => (
+          <TrackRow key={t.title} track={t} index={i} />
         ))}
       </ul>
 
@@ -102,9 +88,10 @@ export default function MusicSection() {
           type="button"
           onClick={() => setShowMore((s) => !s)}
           aria-expanded={showMore}
-          className="hover-line focus-ring text-xs uppercase tracking-[0.35em] text-silver transition-colors hover:text-cyan"
+          className="vcr-btn glitch-hover focus-ring px-4 py-2 font-display text-lg tracking-[0.2em]"
+          style={{ borderRadius: 0 }}
         >
-          {showMore ? "Less music" : "More music"}
+          {showMore ? "[ − LESS ]" : "[ + LOAD MORE ]"}
         </button>
 
         {showMore && (
@@ -114,8 +101,8 @@ export default function MusicSection() {
             animate={{ opacity: 1, height: "auto" }}
             transition={{ duration: 0.5 }}
           >
-            {secondary.map((t) => (
-              <TrackRow key={t.title} track={t} primary={false} />
+            {secondary.map((t, i) => (
+              <TrackRow key={t.title} track={t} index={primary.length + i} />
             ))}
           </motion.ul>
         )}
