@@ -76,6 +76,13 @@ export const site = {
     click: "/audio/click.wav",
   },
 
-  // Optional artist image. If /public/images/artist.jpg exists it is used.
-  artistImage: "/images/artist.jpg",
+  // Optional images. If the files exist in /public they are used; otherwise
+  // components fall back to a VHS-static placeholder.
+  images: {
+    portrait: "/images/artist-portrait.jpg",
+    circle: "/images/artist-circle.jpg",
+    setar: "/images/artist-setar.jpg",
+    album: "/images/album-cover.jpg",
+  },
+  artistImage: "/images/artist-portrait.jpg",
 } as const;
